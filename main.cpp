@@ -305,13 +305,6 @@ int main() {
 	depth = generate_hand(wall, hand);
 	sort_hand(hand);
 
-	std::vector<int> test_hand = {
-		0x11, 0x11, 0x11, 0x12, 0x12, 0x12, 0x13, 0x13, 0x13, 0x17, 0x17, 0x17, 0x18, 0x19
-	};
-	Win_checker checker(test_hand);
-	checker.check_win_all();
-	checker.get_score();
-
 	// game loop
 	std::string input;
 	while (input != "q") {
@@ -336,9 +329,12 @@ int main() {
 			}
 		} else if (input == "mahjong" || depth >= 136) {
 			// check for win
-			if (check_win(hand)) {
+			Win_checker checker(hand);
+			if (checker.check_win_all()) {
 				// win, add score and reset game
 				std::cout << "Congratulations! You won!" << std::endl;
+				std::cout << "Your hand:" << std::endl;
+				checker.print_score(tile_names);
 				std::cout << "Play again? (Y/N)" << std::endl;
 				std::cin >> input;
 				if (input == "n" || input == "q") {
